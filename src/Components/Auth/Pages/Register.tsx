@@ -26,7 +26,7 @@ const Register = () => {
       id: "username",
       type: "text",
       label: "Username",
-      placeholder: "e.g empiretecn",
+      placeholder: "e.g Jackson",
       value: form.username,
       onChange: handleChange,
     },
@@ -114,7 +114,6 @@ const Register = () => {
               placeholder={input.placeholder}
               value={input.value}
               onChange={input.onChange}
-              disabled={loading}
             />
           ))}
           
