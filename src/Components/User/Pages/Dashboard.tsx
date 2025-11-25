@@ -25,22 +25,14 @@ const Dashboard = () => {
           {/* Stats Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {/* Wallet Balance Card */}
-            <Card 
-              title="Wallet Balance"
-              data={
-                <CountUp
-                  end={walletBalance}
-                  duration={2.5}
-                  separator=","
-                  prefix="₦"
-                  decimals={0}
-                />
-              }
-            >
-              <div className="flex flex-col h-full bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6">
-                <div className="flex-grow">
-                  <div className="text-3xl font-bold text-gray-900 mb-4">
-                    {
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6">
+              <Card 
+                title="Wallet Balance"
+                data={`₦${walletBalance.toLocaleString()}`}
+              >
+                <div className="flex flex-col h-full">
+                  <div className="flex-grow">
+                    <div className="text-3xl font-bold text-gray-900 mb-4">
                       <CountUp
                         end={walletBalance}
                         duration={2.5}
@@ -48,57 +40,51 @@ const Dashboard = () => {
                         prefix="₦"
                         decimals={0}
                       />
-                    }
+                    </div>
+                    <p className="text-gray-600 text-sm">
+                      Available for purchasing numbers and services
+                    </p>
                   </div>
-                  <p className="text-gray-600 text-sm">
-                    Available for purchasing numbers and services
-                  </p>
+                  <Link 
+                    to="/fund-wallet" 
+                    className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 mt-4"
+                  >
+                    <span className="material-symbols-outlined text-lg">add</span>
+                    <span>Fund Wallet</span>
+                  </Link>
                 </div>
-                <Link 
-                  to="/fund-wallet" 
-                  className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 mt-4"
-                >
-                  <span className="material-symbols-outlined text-lg">add</span>
-                  <span>Fund Wallet</span>
-                </Link>
-              </div>
-            </Card>
+              </Card>
+            </div>
 
             {/* Purchased Numbers Card */}
-            <Card 
-              title="Purchased Numbers"
-              data={
-                <CountUp
-                  end={purchasedNumber}
-                  duration={2}
-                  separator=","
-                />
-              }
-            >
-              <div className="flex flex-col h-full bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-xl p-6">
-                <div className="flex-grow">
-                  <div className="text-3xl font-bold text-gray-900 mb-4">
-                    {
+            <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-xl p-6">
+              <Card 
+                title="Purchased Numbers"
+                data={purchasedNumber.toString()}
+              >
+                <div className="flex flex-col h-full">
+                  <div className="flex-grow">
+                    <div className="text-3xl font-bold text-gray-900 mb-4">
                       <CountUp
                         end={purchasedNumber}
                         duration={2}
                         separator=","
                       />
-                    }
+                    </div>
+                    <p className="text-gray-600 text-sm">
+                      Active phone numbers in your account
+                    </p>
                   </div>
-                  <p className="text-gray-600 text-sm">
-                    Active phone numbers in your account
-                  </p>
+                  <Link 
+                    to="/numbers" 
+                    className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors duration-200 mt-4"
+                  >
+                    <span className="material-symbols-outlined text-lg">visibility</span>
+                    <span>View Numbers</span>
+                  </Link>
                 </div>
-                <Link 
-                  to="/numbers" 
-                  className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors duration-200 mt-4"
-                >
-                  <span className="material-symbols-outlined text-lg">visibility</span>
-                  <span>View Numbers</span>
-                </Link>
-              </div>
-            </Card>
+              </Card>
+            </div>
           </div>
 
           {/* Quick Actions Section */}
