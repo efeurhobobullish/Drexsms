@@ -1,16 +1,19 @@
 import { useState } from "react";
-import InputField from "../../Global/InputField"; // Correct the import path if necessary
+import { toast } from "sonner";
+import InputField from "../../Global/InputField";
 import Layout from "../Layout";
 import Heading from "../UI/Heading";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import loader from "../../../assets/rolling-loader.svg";
+
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,48 +39,57 @@ const Login: React.FC = () => {
     },
   ];
 
-  const validate = () => {
-    if (!form.email) {
+  const validate = (): boolean => {
+    if (!form.email.trim()) {
       toast.error("E-mail Address is required!");
       return false;
-    } else if (!form.password) {
-      toast.error("Password is Required!");
-      return false;
-    } else if (form.password.length < 5) {
-      toast.error("Password should be at least more than 5 characters!");
-      return false;
-    } else {
-      return true;
     }
+    
+    if (!form.password) {
+      toast.error("Password is required!");
+      return false;
+    }
+    
+    if (form.password.length < 6) {
+      toast.error("Password should be at least 6 characters!");
+      return false;
+    }
+    
+    return true;
   };
 
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (validate()) {
-      // Login codes here!
-      setLoading(true);
+    if (!validate()) return;
 
-      // Remove this and do your thing here Uncle Alex...I don taya!😪
+    setLoading(true);
+
+    try {
+      // Replace this with your actual login API call
+      await new Promise(resolve => setTimeout(resolve, 2500));
+      
+      toast.success("Login successful! Redirecting...");
+      
       setTimeout(() => {
-        setLoading(false);
-        toast.success("This should be Login Successful...I guess!🤔");
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 2500);
-      }, 2500);
+        navigate("/dashboard");
+      }, 2000);
+      
+    } catch (error) {
+      toast.error("Login failed. Please check your credentials.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Layout>
-      <div>
+      <div className="max-w-md mx-auto">
         <Heading
           title="Welcome back! 👋"
           subtitle="Login to continue using our service"
         />
+        
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
           {inputs.map((input) => (
             <InputField
@@ -90,19 +102,29 @@ const Login: React.FC = () => {
               onChange={input.onChange}
             />
           ))}
-          <button className="btn-primary btn mt-2" type="submit">
+          
+          <button 
+            className="btn-primary btn mt-4" 
+            type="submit"
+            disabled={loading}
+          >
             {loading ? (
-              <>
-                <img src={loader} width={25} />
-              </>
+              <div className="flex items-center justify-center gap-2">
+                <img src={loader} width={25} alt="Loading" />
+                <span>Signing in...</span>
+              </div>
             ) : (
-              "Submit"
+              "Sign In"
             )}
           </button>
         </form>
-        <p className="mt-6 mb-4 pl-1 text-subtext text-base">
+        
+        <p className="mt-6 text-center text-gray-600 text-base">
           Create New Account?{" "}
-          <Link className="font-semibold text-primary" to="/register">
+          <Link 
+            className="font-semibold text-primary hover:underline" 
+            to="/register"
+          >
             Register
           </Link>
         </p>
