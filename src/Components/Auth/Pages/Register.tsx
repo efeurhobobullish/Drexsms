@@ -24,16 +24,14 @@ const Register = () => {
   const inputs = [
     {
       id: "username",
-      name: "username",
       type: "text",
       label: "Username",
-      placeholder: "e.g Jackson",
+      placeholder: "e.g empiretecn",
       value: form.username,
       onChange: handleChange,
     },
     {
       id: "email",
-      name: "email",
       type: "email",
       label: "E-mail Address",
       placeholder: "e.g example@gmail.com",
@@ -42,7 +40,6 @@ const Register = () => {
     },
     {
       id: "password",
-      name: "password",
       type: "password",
       label: "Password",
       placeholder: "min 6 characters",
@@ -112,7 +109,6 @@ const Register = () => {
             <InputField
               key={input.id}
               id={input.id}
-              name={input.name}
               type={input.type}
               label={input.label}
               placeholder={input.placeholder}
