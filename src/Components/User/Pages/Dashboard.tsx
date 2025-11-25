@@ -6,11 +6,6 @@ import Heading from "../../Global/Heading";
 import Container from "../UI/Container";
 
 const Dashboard = () => {
-  const currencyFormatter = new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-  });
-  
   const walletBalance = 7212345;
   const purchasedNumber = 4;
 
@@ -30,11 +25,8 @@ const Dashboard = () => {
           {/* Stats Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {/* Wallet Balance Card */}
-            <Card 
-              title="Wallet Balance" 
-              className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
-            >
-              <div className="flex flex-col h-full">
+            <Card title="Wallet Balance">
+              <div className="flex flex-col h-full bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6">
                 <div className="flex-grow">
                   <div className="text-3xl font-bold text-gray-900 mb-4">
                     <CountUp
@@ -60,11 +52,8 @@ const Dashboard = () => {
             </Card>
 
             {/* Purchased Numbers Card */}
-            <Card 
-              title="Purchased Numbers" 
-              className="bg-gradient-to-br from-green-50 to-green-100 border-green-200"
-            >
-              <div className="flex flex-col h-full">
+            <Card title="Purchased Numbers">
+              <div className="flex flex-col h-full bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-xl p-6">
                 <div className="flex-grow">
                   <div className="text-3xl font-bold text-gray-900 mb-4">
                     <CountUp
