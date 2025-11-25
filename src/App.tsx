@@ -28,16 +28,7 @@ const App = () => {
 
   return (
     <>
-      <Toaster 
-        position="top-center" 
-        toastOptions={{
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-          className: 'my-toast',
-        }}
-      />
+      <Toaster position="top-center" />
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route element={<Layout />}>
