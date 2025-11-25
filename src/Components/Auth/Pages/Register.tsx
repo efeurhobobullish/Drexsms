@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import InputField from "../../Global/InputField";
 import Layout from "../Layout";
 import Heading from "../UI/Heading";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import loader from "../../../assets/rolling-loader.svg";
+
 const Register = () => {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -12,6 +13,8 @@ const Register = () => {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,6 +24,7 @@ const Register = () => {
   const inputs = [
     {
       id: "username",
+      name: "username",
       type: "text",
       label: "Username",
       placeholder: "e.g Jackson",
@@ -29,6 +33,7 @@ const Register = () => {
     },
     {
       id: "email",
+      name: "email",
       type: "email",
       label: "E-mail Address",
       placeholder: "e.g example@gmail.com",
@@ -37,6 +42,7 @@ const Register = () => {
     },
     {
       id: "password",
+      name: "password",
       type: "password",
       label: "Password",
       placeholder: "min 6 characters",
@@ -45,90 +51,115 @@ const Register = () => {
     },
   ];
 
-  const validate = () => {
-    if (!form.username) {
+  const validate = (): boolean => {
+    if (!form.username.trim()) {
       toast.error("Username is required!");
       return false;
-    } else if (!form.email) {
+    }
+    
+    if (!form.email.trim()) {
       toast.error("E-mail Address is required!");
       return false;
-    } else if (!form.password) {
-      toast.error("Password is Required!");
-      return false;
-    } else if (form.password.length < 5) {
-      toast.error("Password should be at least more than 5 characters!");
-      return false;
-    } else {
-      return true;
     }
-    };
     
-    const navigate = useNavigate()
+    if (!form.password) {
+      toast.error("Password is required!");
+      return false;
+    }
+    
+    if (form.password.length < 6) {
+      toast.error("Password should be at least 6 characters!");
+      return false;
+    }
+    
+    return true;
+  };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (validate()) {
-      // Register code goes here!
-      setLoading(true);
+    if (!validate()) return;
 
-      // Remove this and do your thing here Uncle Alex...I don taya!😪
+    setLoading(true);
+
+    try {
+      // Replace this with your actual registration API call
+      await new Promise(resolve => setTimeout(resolve, 2500));
+      
+      toast.success("Registration successful! Redirecting...");
+      
       setTimeout(() => {
-        setLoading(false);
-        toast.success("This should be Registration Successful...I guess!🤔");
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 2500);
-      }, 2500);
-        navigate("/dashboard")
+        navigate("/dashboard");
+      }, 2000);
+      
+    } catch (error) {
+      toast.error("Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <Layout>
-      <div>
+      <div className="max-w-md mx-auto">
         <Heading
           title="Register"
           subtitle="Create an account with Drexsms today!"
         />
+        
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
           {inputs.map((input) => (
             <InputField
               key={input.id}
               id={input.id}
+              name={input.name}
               type={input.type}
               label={input.label}
               placeholder={input.placeholder}
               value={input.value}
               onChange={input.onChange}
+              disabled={loading}
             />
           ))}
+          
           <div className="flex items-center gap-x-2">
             <input
               type="checkbox"
               id="terms"
               defaultChecked
               className="checkbox-xs checkbox-primary text-primary"
+              disabled={loading}
             />
-            <label htmlFor="terms" className="text-sm">
+            <label htmlFor="terms" className="text-sm text-gray-600">
               I have read and accepted the{" "}
-              <Link to="/terms" className="text-primary font-semibold">
-                Terms & Condition
+              <Link to="/terms" className="text-primary font-semibold hover:underline">
+                Terms & Conditions
               </Link>
             </label>
           </div>
-          <button className="btn-primary btn mt-2" type="submit">
+          
+          <button 
+            className="btn-primary btn mt-4" 
+            type="submit"
+            disabled={loading}
+          >
             {loading ? (
-              <>
-                <img src={loader} width={25} />
-              </>
+              <div className="flex items-center gap-2">
+                <img src={loader} width={25} alt="Loading..." />
+                <span>Creating Account...</span>
+              </div>
             ) : (
-              "Submit"
+              "Create Account"
             )}
           </button>
         </form>
-        <p className="mt-6 mb-4 pl-1 text-subtext text-sm">
-          Already have an Account?{" "}
-          <Link className="font-semibold text-primary" to="/login">
+        
+        <p className="mt-6 text-center text-gray-600 text-sm">
+          Already have an account?{" "}
+          <Link 
+            className="font-semibold text-primary hover:underline" 
+            to="/login"
+          >
             Login
           </Link>
         </p>
